@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>MyJDownloader</Name>
+  <Repository>ghcr.io/nightfly0815/jdownloader-musl:latest</Repository>
+  <Registry>https://github.com/nightfly0815/jdownloader-musl/pkgs/container/jdownloader-musl</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>sh</Shell>
+  <Privileged>false</Privileged>
+  <Support>https://github.com/nightfly0815/jdownloader-musl/issues</Support>
+  <Project>https://github.com/nightfly0815/jdownloader-musl</Project>
+  <Overview>JDownloader 2 headless, controlled via MyJDownloader (web, app, browser extension). Alpine/musl with a slim Java 27 runtime, tuned for old x86-64 CPUs without AES-NI (ChaCha20-first TLS, Serial GC). JDownloader updates itself inside the container; the whole program folder is kept in appdata. New files and folders are created world-writable (UMASK 0000) so they can be deleted over SMB.</Overview>
+  <Category>Downloaders:</Category>
+  <WebUI>https://my.jdownloader.org</WebUI>
+  <Icon>https://github.com/hussainalhaddad/docker-templates/raw/master/myjdownloader/logo.png</Icon>
+  <ExtraParams>--user 99:100 --restart unless-stopped</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DonateText/>
+  <DonateLink/>
+  <Requires>A free MyJDownloader account (https://my.jdownloader.org).</Requires>
+  <Config Name="Downloads" Target="/opt/JDownloader/Downloads" Default="/mnt/user/JDownloads" Mode="rw" Description="Download folder. Tip: an exclusive cache share avoids the FUSE overhead of /mnt/user on slow CPUs." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/JDownloads</Config>
+  <Config Name="AppData" Target="/opt/JDownloader/app" Default="/mnt/user/appdata/jdownloader2" Mode="rw" Description="Complete JDownloader program folder (config, updates, plugins, icons, logs)." Type="Path" Display="always" Required="true" Mask="false">/mnt/user/appdata/jdownloader2</Config>
+  <Config Name="MyJDownloader e-mail" Target="MYJD_USER" Default="" Mode="" Description="E-mail of your MyJDownloader account." Type="Variable" Display="always" Required="true" Mask="false"/>
+  <Config Name="MyJDownloader password" Target="MYJD_PASSWORD" Default="" Mode="" Description="Password of your MyJDownloader account." Type="Variable" Display="always" Required="true" Mask="true"/>
+  <Config Name="Device name" Target="MYJD_DEVICE_NAME" Default="Unraid" Mode="" Description="Name of this JDownloader in MyJDownloader." Type="Variable" Display="always" Required="false" Mask="false">Unraid</Config>
+  <Config Name="Time zone" Target="TZ" Default="Europe/Berlin" Mode="" Description="Container time zone." Type="Variable" Display="always" Required="false" Mask="false">Europe/Berlin</Config>
+  <Config Name="UMASK" Target="UMASK" Default="0000" Mode="" Description="0000 = new folders 777 / files 666 (Unraid default, deletable over SMB). 0002 = group-writable only." Type="Variable" Display="advanced" Required="false" Mask="false">0000</Config>
+  <Config Name="Java heap" Target="JD_HEAP" Default="512m" Mode="" Description="Maximum Java heap (e.g. 384m, 512m, 1g). Raise for very large link lists." Type="Variable" Display="advanced" Required="false" Mask="false">512m</Config>
+  <Config Name="TLS cipher order" Target="JD_TLS_CIPHERS" Default="TLS_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384" Mode="" Description="ChaCha20 first = much faster HTTPS on CPUs without AES-NI. Leave empty to use Java defaults (better on CPUs with AES-NI)." Type="Variable" Display="advanced" Required="false" Mask="false">TLS_CHACHA20_POLY1305_SHA256,TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256,TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305_SHA256,TLS_AES_128_GCM_SHA256,TLS_AES_256_GCM_SHA384,TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384</Config>
+  <Config Name="Extra JVM options" Target="VMARGS" Default="" Mode="" Description="Additional Java options, appended last." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+  <Config Name="Remote API port" Target="3129" Default="3129" Mode="tcp" Description="Optional: JDownloader deprecated remote API / local MyJD direct connection." Type="Port" Display="advanced" Required="false" Mask="false">3129</Config>
+</Container>
